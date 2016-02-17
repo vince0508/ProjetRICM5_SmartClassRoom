@@ -1,0 +1,43 @@
+launchChating = function (windowId, isMaster) {
+
+console.log('caca');
+
+$(document).ready(function() {
+$( ".block clearfix" ).append( '<ul id="messages"></ul><form action=""><input id="m" autocomplete="off" /><button>Send</button></form><script type="text/javascript" src="/socket.io/socket.io.js"></script><script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script><script>var socket = io();$(\'form\').submit(function(){socket.emit(\'chat message\', $(\'#m\').val());$(\'#m\').val(\'\');return false;});var pseudo = prompt(\'Quel est votre pseudo ?\');socket.emit(\'nouveau_client\', pseudo);document.title = pseudo + \' - \' + document.title;console.log(\'pseudo: \' + pseudo);socket.on(\'chat message\', function(msg){$(\'#messages\').append($(\'<li>\').text(msg));});</script>' );
+    $(".block clearfix").on('click', '#but', function() {
+        alert( "bla bla" );
+    });
+});
+
+if(script.complete) document.write = document._write;
+else script.load(function() { 
+    // Goes to the end of the run queue so that the script 
+    // is guaranteed to run before this code
+    setTimeout(function(){document.write = document._write;},0);
+});
+	
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+//var ent = require('ent'); // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
+
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function (socket, pseudo) {
+    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+    socket.on('nouveau_client', function(pseudo) {
+        //pseudo = ent.encode(pseudo);
+        socket.pseudo = pseudo;
+        io.emit('nouveau_client', pseudo);
+    });
+
+    // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
+    socket.on('chat message', function(message) {
+	io.emit('chat message', socket.pseudo + ' : ' + message);
+    }); 
+});
+
+}
