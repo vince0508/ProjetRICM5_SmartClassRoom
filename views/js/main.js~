@@ -897,10 +897,6 @@ function initializeEventListener() {
         askServerLoadDrawing();
     });
     
-    $(".load-chat").mousedown(function (e) {
-        askServerLoadChat();
-    });
-    
     $(".rotate-display-div").mousedown(function (e) {
         rotateDisplayDiv();
     });

@@ -28,10 +28,6 @@ function askServerLoadSharedWindow() {
     now.getWindowId("shared");
 }
 
-function askServerLoadChat() {
-    now.getWindowId("chat");
-}
-
 function askServerLoadPingPong() {
     now.getWindowId("ping-pong");
 }

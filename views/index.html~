@@ -203,8 +203,11 @@
     					    elem.parentNode.removeChild(elem);
     					    elem = document.getElementById('valide_pseudo');
     					    elem.parentNode.removeChild(elem);
+
     					    document.getElementById('partie_message').style.display = 'block';
     					    document.getElementById('messages_div').style.display = 'block';
+    					    document.getElementById('bouton_menu').style.display = 'block';
+
 					    socket.emit('nouveau_client', pseudo);
 					      document.title = pseudo;
 					      

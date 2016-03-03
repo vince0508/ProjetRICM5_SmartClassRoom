@@ -48,7 +48,7 @@ app.get("/audio3", function (req, res) {
 });
 
 // make this process listen to port 80 or 8080
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 3000);
 
 // include nowJS framework handler
 var nowjs = require('now');
@@ -323,45 +323,33 @@ everyone.now.filterRemoteGameControl = function (windowId, game, controlType, va
     this.now.remoteGameControl(windowId, game, controlType, value);
 };
 
+
+
+
 //=============================================================================
-// CHAT
+// REMOTE CONTROL FOR SYNCHRONIZING SNAKE GAME BETWEEN CLIENTS
 //=============================================================================
-
-var ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
-fs = require('fs'),
-people= [];
-var html = require('fs').readFileSync(__dirname+'/views/index.html');
-var app2 = require('http').createServer(function(req, res){ res.end(html); });
-app2.listen(3001);
-var io = require("socket.io");
-var io = io.listen(app2);
-
-io.on('connection', function (socket, pseudo) {
-    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
-    socket.on('nouveau_client', function(pseudo) {
-        pseudo = ent.encode(pseudo);
-        socket.pseudo = pseudo;
-        people.push(socket.pseudo);
-        console.log(people);
-        socket.broadcast.emit('nouveau_client', pseudo);
-        socket.broadcast.emit('list_client', people);
-        socket.emit('list_client', people);
-
-    });
-
-    // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
-    socket.on('chat message', function(message) {
-	io.emit('chat message', socket.pseudo + ' : ' + message);
-
-    });
     
-    socket.on('disco', function(pseudo) {
-        people.splice(people.indexOf(socket.pseudo),1);	
-	socket.broadcast.emit('list_client12', people);
-    	socket.emit('list_client1', people);
-    	console.log('CACA');
-    });
-});
+// called from client - just execute one client context (host)
+everyone.now.askRemoteSnakeControl = function (windowId, game, controlType, value, destination) {
+    if (destination == "all"){
+       everyone.now.remoteSnakeControl(windowId, game, controlType, value, this.now.id);
+    }
+    else if (destination == "except-host") {
+        everyone.now.filterRemoteSnakeGameControl(windowId, game, controlType, value, this.now.id);
+    }
+    else if (destination == "master") {
+        clientList[hosts[windowId].client].object.now.remoteSnakeControl(windowId, game, controlType, value);
+    }
+};
+
+// called from server - execute every client context, then we can do filtering
+everyone.now.filterRemoteSnakeGameControl = function (windowId, game, controlType, value, clientId) {
+    //The client which has launched askRemoteSnakeControl is unauthorized to pass
+    if (this.now.id == clientId) { return; }
+    this.now.remoteSnakeControl(windowId, game, controlType, value);
+};
+
 
 
 //=============================================================================

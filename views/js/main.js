@@ -128,7 +128,8 @@ function addWindow(windowId, title, width, height, type, isShared) {
         var maxPosition;
         if (isShared) {
             //In this configuration, there is two lines and two columns
-            var rows = 2;
+            var rows = 2;lol
+
             var cols = 2;
             maxPosition = { "i": (rows - 1), "j": (cols - 1) };
         }
@@ -720,6 +721,10 @@ function fullWindow(canvas) {
             $("body").append(pdfControls);
             updateCanvas(windowId, backing_canvas.toDataURL("image/jpeg"));
         }
+		else if (windowList[windowId].type == "gameSnake") {
+//JOE MODIF
+		console.log("fullWindow pour gameSnake");
+		}
         else {
             
             updateCanvas(windowId, backing_canvas.toDataURL("image/jpeg"));
@@ -809,6 +814,12 @@ function fullWindow(canvas) {
                     shareImage(windowId, backing_canvas.toDataURL("image/jpeg"));
                 }
             }
+			else if (windowList[windowId].type == "gameSnake"){
+// JOE MODIF 
+			console.log("endFullscreen pour gameSnake");	
+			}
+	
+			
             canvasFullscreen.removeEventListener("mousemove", fullscreenControlListener, false);
             fullscreenButton.removeEventListener("mousedown", askEndFullscreen, false);
             canvas.removeEventListener("endfullscreen", endFullscreen, false);
@@ -893,6 +904,10 @@ function initializeEventListener() {
         askServerLoadPingPong();
     });
     
+    $(".load-snake").mousedown(function (e) {
+        askServerLoadSnake();
+    });
+    
     $(".load-drawing").mousedown(function (e) {
         askServerLoadDrawing();
     });
@@ -919,9 +934,14 @@ function initializeEventListener() {
         var windowId = e.currentTarget.parentElement.parentElement.parentElement.id.split('window')[1];
         var canvas = document.getElementById("canvas" + windowId);
         
-        if (windowList[windowId].type == "game") {
+        if (windowList[windowId].type == "game") {			
             windowList[windowId].data.game.launchFullScreen();
         }
+		else if (windowList[windowId].type == "gameSnake"){
+			console.log("windowList[windowId].data.game "+windowList[windowId].data.game);
+			console.log("windowId: "+windowId);	
+			windowList[windowId].data.game.launchFullScreen();
+		}
         else {
             fullWindow(canvas);
         }
@@ -932,6 +952,9 @@ function initializeEventListener() {
         var windowId = e.currentTarget.parentElement.parentElement.parentElement.id.split('window')[1];
         if (windowList[windowId].type == "game") {
             askRemoteGameControl(windowId, "ping-pong", "tiled-display", "", "all");
+        }
+		else if (windowList[windowId].type == "gameSnake") {
+            askRemoteGameControl(windowId, "snake", "tiled-display", "", "all");
         }
         else if (windowList[windowId].type != "interactif"){
             askRemoteMediaControl(windowId, "all", "tiled-display", infos.position, "all");

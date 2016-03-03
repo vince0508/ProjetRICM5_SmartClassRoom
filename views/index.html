@@ -37,6 +37,7 @@
     <script src="/js/apps/ping_pong.js"></script>
     <script src="/js/apps/drawing.js"></script>
     <script src="/js/apps/interactif.js"></script>
+    <script src="/js/apps/snake.js"></script>
 </head>
 <body>
     <label class="fullscreen-controls transparent" id="fullscreen-controls-id" style="display: none; z-index:1">
@@ -60,6 +61,7 @@
                                 <ul>
                                     <li><a class="icon icon-photo load-drawing">Drawing</a></li>
                                     <li><a class="icon icon-photo load-ping-pong">Ping Pong</a></li>
+                                    <li><a class="icon icon-photo load-snake">Snake</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -143,107 +145,7 @@
                 </div>
                 <div class="display">
                     <div class="block clearfix">
-                       <div style='display:none;' id="bouton_menu"> <p><a href="#" id="trigger" class="menu-trigger"></a></p></div>
-                        <div class="chat">
-                        	<div style=" overflow:auto;width:300; height:300px; border:#000000 1px solid; display:none;" id="messages_div"><ul id="messages"></ul></div>
-                        	<div align="center" id="zone_online">
-					Vous n'êtes pas connecté !
-            				
-				    </div>
-					<div style='display:none;' id='partie_message' > 
-				    <form align="right" action="/" method="post" id="formulaire_chat">
-					    <input type="text" name="m" id="m" placeholder="Votre message..." size="50" autofocus />
-					    <input type="submit" id="envoi_message" value="Envoyer" />
-				    </form>
-				    <br>
-				    <form align="right" action="/" method="post" id="formulaire_reset">
-					    <input type="submit" id="reset_message" value="Reset" />
-				    </form>
-					<br>
-
-				    <form align="right" action="/" method="post" id="formulaire_exit">
-					    <input type="submit" id="quit_message" value="Quit" />
-				    </form>
-
-				    </div>
-				<span id="connexion">
-			        <input  id="pseudo" type="text" placeholder="Votre pseudo...">
-				<button id ="valide_pseudo" onclick="go()">Connexion</button>
-				</span>
-			        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-			     
-			        <script>
-					var loc = location.href; 
-					var splt = loc.split(":"); 
-					var address = splt[0] + ":" + splt[1] + ":" + "3001";
-					var address2 = splt[0] + ":" + splt[1] + ":" + "8080";
-					var socket = io.connect(address);
-				        $('#formulaire_chat').submit(function(){
-						socket.emit('chat message', $('#m').val());
-						$('#m').val('');
-						return false;
-					      });
-					      $('#formulaire_reset').submit(function () {
-							$('#messages').empty(); // Vide la zone de Chat et remet le focus dessus
-							return false; // Permet de bloquer l'envoi "classique" du formulaire
-						    });
-						    
-						    $('#formulaire_exit').submit(function () {
-						    	socket.emit('disco','disco');
-					    			//socket.disconnect();
-					    			return false; // Permet de bloquer l'envoi "classique" du formulaire
-								});
-				        
-				        // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
-				 	var pseudo;
-
-				 	function go() {
-					    pseudo = document.getElementById("pseudo").value;
-					    var elem = document.getElementById('pseudo');
-    					    elem.parentNode.removeChild(elem);
-    					    elem = document.getElementById('valide_pseudo');
-    					    elem.parentNode.removeChild(elem);
-
-    					    document.getElementById('partie_message').style.display = 'block';
-    					    document.getElementById('messages_div').style.display = 'block';
-    					    document.getElementById('bouton_menu').style.display = 'block';
-
-					    socket.emit('nouveau_client', pseudo);
-					      document.title = pseudo;
-					      
-						    socket.on('list_client', function(people) {
-							insereMembers(people);
-						    });
-						    socket.on('list_client12', function(people) {
-						    	insereMembers(people);
-								});
-								socket.on('list_client1', function(people) {
-									socket.disconnect(); 
-									location.replace(address2);
-								});
-
-
-						    // Quand un nouveau client se connecte, on affiche l'information
-						    socket.on('nouveau_client', function(pseudo) {
-							$('#messages').prepend('<p><em>' + pseudo + ' a rejoint le Chat !</em></p>');
-						    });
-					      socket.on('chat message', function(msg){
-						$('#messages').append($('<li>').text(msg));
-						document.getElementById("messages_div").scrollTop = document.getElementById("messages_div").scrollHeight;
-					      });
-					}
-					// Liste Personne en Ligne
-					    function insereMembers(people) {
-					    	$('#zone_online').empty();
-					    	
-					    	for (var i = 0; i < people.length; i++) {
-				    				$('#zone_online').prepend(people[i]+'<br>');
-				  				}
-				  				$('#zone_online').prepend('<p><strong>ONLINE : </strong> </p>');
-					    	
-					    }
-			        </script>
-                        </div>
+                        <p><a href="#" id="trigger" class="menu-trigger"></a></p>
                     </div>
                 </div><!-- /scroller-inner -->
             </div><!-- /scroller -->

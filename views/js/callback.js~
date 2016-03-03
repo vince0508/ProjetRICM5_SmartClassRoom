@@ -259,9 +259,6 @@ console.log("DO ROTATION")
         else if (type == "drawing") {
                 launchDrawing(windowId, false);
         }
-        else if (type == "chat") {
-                launchChating(windowId, false);
-        }
 		else if (type == "interactif") {
                 launchInteractifMedia(windowId, data);
 				return;

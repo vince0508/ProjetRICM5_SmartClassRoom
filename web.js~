@@ -356,9 +356,8 @@ io.on('connection', function (socket, pseudo) {
     });
     
     socket.on('disco', function(pseudo) {
-        people.splice(people.indexOf(socket.pseudo),1);
-        	
-		socket.broadcast.emit('list_client12', people);
+        people.splice(people.indexOf(socket.pseudo),1);	
+	socket.broadcast.emit('list_client12', people);
     	socket.emit('list_client1', people);
     	console.log('CACA');
     });

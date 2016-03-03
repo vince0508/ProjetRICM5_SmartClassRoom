@@ -32,6 +32,10 @@ function askServerLoadPingPong() {
     now.getWindowId("ping-pong");
 }
 
+function askServerLoadSnake() {
+    now.getWindowId("snake");
+}
+
 function askServerLoadDrawing() {
     now.getWindowId("drawing");
 }
@@ -183,6 +187,17 @@ askRemoteGameControl = function (windowId, game, controlType, value, destination
     now.askRemoteGameControl(windowId, game, controlType, value, destination);
 }
 
+//=============================================================================
+// REMOTE CONTROL FOR SYNCHRONIZING Snake GAME BETWEEN CLIENTS
+//=============================================================================
+
+now.remoteSnakeControl = function (windowId, game, controlType, value) {
+    remoteSnakeControl(windowId, game, controlType, value);
+}
+
+askRemoteSnakeControl = function (windowId, game, controlType, value, destination) {
+    now.askRemoteSnakeControl(windowId, game, controlType, value, destination);
+}
 
 
 
