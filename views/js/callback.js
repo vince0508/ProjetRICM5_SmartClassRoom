@@ -374,7 +374,7 @@ console.log("DO ROTATION")
             var context = backing_canvas.getContext('2d');
             
             var rows = 2;
-            var cols = 2;
+            var cols = 1;
             var tileX = 0;
             var tileY = 0;
             var tileWidth = img.width;

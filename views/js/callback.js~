@@ -69,6 +69,9 @@ $(document).ready(function () {
         else if (type == "ping-pong") {
             launchPingPongGame(windowId, true);
         }
+        else if (type == "snake") {
+            launchSnakeGame(windowId, true);
+        }
         else if (type == "drawing") {
             launchDrawing(windowId, true);
         }
@@ -250,7 +253,7 @@ console.log("DO ROTATION")
         rows = 2;
         if (type == "ping-pong") {
             if ((data.masterPosition.i == infos.position.i)) {
-                launchPingPongGame(windowId, false);
+                launchPingPongGame(windowId, false); 
             }
             else {
                 return;
@@ -262,6 +265,15 @@ console.log("DO ROTATION")
 		else if (type == "interactif") {
                 launchInteractifMedia(windowId, data);
 				return;
+        }
+        else if (type == "snake") {
+            if ((data.masterPosition.i == infos.position.i)) {
+                launchSnakeGame(windowId, false);
+					 console.log("\nlaunchSnakeGame\n");
+            }
+            else {
+                return;
+            }
         }
         else {
             createCanvas(windowId, title, 400, 300, type, false, true, data);
@@ -599,7 +611,18 @@ console.log("DO ROTATION")
                 windowList[windowId].isTiled = false;
                 canvas.dispatchEvent(eventEndFullscreen);   
             }
+			console.log("\nremoteGameControl PING-PONG\n");
+			console.log(game);		
         }
+		else if (game == "snake"){
+            
+            if (controlType == "tiled-display") {
+                windowList[windowId].isTiled = true;
+                windowList[windowId].data.game.launchFullScreen();  
+            }
+           
+
+		}
         else if (game == "drawing") {
             if (controlType == "paint") {
                 var app = windowList[windowId].data.game;

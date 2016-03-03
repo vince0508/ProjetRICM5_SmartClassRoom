@@ -91,8 +91,8 @@ nowjs.on('connect', function () {
                 this.now.name = 'name' + key;
                 this.now.id = key;
                 if (o == "NW") { i = 0; j = 0; }
-                if (o == "NE") { i = 1; j = 0; }
-                if (o == "SW") { i = 0; j = 1; }
+                if (o == "NE") { i = 0; j = 1; }
+                if (o == "SW") { i = 1; j = 0; }
                 if (o == "SE") { i = 1; j = 1; }
                 var client = {"id":this.now.id, "object":this, "orientation":o, "position": {"i" : i,"j" : j}};
                 clientList[this.now.id] = client;

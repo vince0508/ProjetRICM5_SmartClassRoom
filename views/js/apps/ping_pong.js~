@@ -1,6 +1,6 @@
 ﻿
 launchPingPongGame = function (windowId, isMaster) {
-console.log('CACA');
+
     var data = {"masterPosition": infos.position};
     var canvas = createCanvas(windowId, "PING PONG", 400, 300, "game", isMaster, false, data);
     if (isMaster) {
@@ -519,6 +519,7 @@ console.log('CACA');
             game.H = canvasFullscreen.height;
                         
             var endFullscreen = function (e) {
+				console.log("endFullscreen");
                 cancelFullScreen(document.documentElement);
                 canvas.style.display = saveDisplay;
                 game.canvas = canvas;
